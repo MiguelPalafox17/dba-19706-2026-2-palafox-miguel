@@ -1,0 +1,47 @@
+2026-11-17 02:55:05.295 UTC [40] user=postgres db=comercializadora app=psql client=[local] LOG:  statement: REVOKE ALL ON FUNCTION auditoria.registrar_cambio_cliente() FROM PUBLIC;
+2026-11-17 02:55:05.317 UTC [40] user=postgres db=comercializadora app=psql client=[local] LOG:  statement: CREATE TRIGGER trg_auditoria_clientes
+	AFTER INSERT OR UPDATE OR DELETE ON clientes
+	FOR EACH ROW EXECUTE FUNCTION auditoria.registrar_cambio_cliente();
+2026-11-17 02:56:06.068 UTC [28] user= db= app= client= LOG:  checkpoint starting: time
+2026-11-17 02:56:08.105 UTC [28] user= db= app= client= LOG:  checkpoint complete: wrote 20 buffers (0.1%); 0 WAL file(s) added, 0 removed, 0 recycled; write=1.969 s, sync=0.025 s, total=2.040 s; sync files=14, longest=0.017 s, average=0.002 s; distance=68 kB, estimate=147 kB; lsn=0/19ED140, redo lsn=0/19ED108
+2026-11-17 02:56:44.185 UTC [229] user=[unknown] db=[unknown] app=[unknown] client=127.0.0.1 LOG:  connection received: host=127.0.0.1 port=47400
+2026-11-17 02:56:44.229 UTC [229] user=app_ventas db=comercial app=[unknown] client=127.0.0.1 LOG:  connection authenticated: identity="app_ventas" method=scram-sha-256 (/var/lib/postgresql/data/pg_hba.conf:119)
+2026-11-17 02:56:44.230 UTC [229] user=app_ventas db=comercial app=[unknown] client=127.0.0.1 LOG:  connection authorized: user=app_ventas database=comercial application_name=app-ventas-web
+2026-11-17 02:56:44.232 UTC [229] user=app_ventas db=comercial app=[unknown] client=127.0.0.1 FATAL:  database "comercial" does not exist
+2026-11-17 02:57:01.397 UTC [236] user=[unknown] db=[unknown] app=[unknown] client=127.0.0.1 LOG:  connection received: host=127.0.0.1 port=53708
+2026-11-17 02:57:01.410 UTC [236] user=app_ventas db=comercializadora app=[unknown] client=127.0.0.1 LOG:  connection authenticated: identity="app_ventas" method=scram-sha-256 (/var/lib/postgresql/data/pg_hba.conf:119)
+2026-11-17 02:57:01.410 UTC [236] user=app_ventas db=comercializadora app=[unknown] client=127.0.0.1 LOG:  connection authorized: user=app_ventas database=comercializadora application_name=app-ventas-web
+2026-11-17 02:57:01.469 UTC [236] user=app_ventas db=comercializadora app=app-ventas-web client=127.0.0.1 LOG:  disconnection: session time: 0:00:00.073 user=app_ventas database=comercializadora host=127.0.0.1 port=53708
+2026-11-17 02:57:55.737 UTC [244] user=[unknown] db=[unknown] app=[unknown] client=127.0.0.1 LOG:  connection received: host=127.0.0.1 port=47368
+2026-11-17 02:57:55.751 UTC [244] user=app_ventas db=comercializadora app=[unknown] client=127.0.0.1 LOG:  connection authenticated: identity="app_ventas" method=scram-sha-256 (/var/lib/postgresql/data/pg_hba.conf:119)
+2026-11-17 02:57:55.751 UTC [244] user=app_ventas db=comercializadora app=[unknown] client=127.0.0.1 LOG:  connection authorized: user=app_ventas database=comercializadora application_name=psql
+2026-11-17 02:57:55.761 UTC [244] user=app_ventas db=comercializadora app=psql client=127.0.0.1 ERROR:  permission denied for schema auditoria at character 15
+2026-11-17 02:57:55.761 UTC [244] user=app_ventas db=comercializadora app=psql client=127.0.0.1 STATEMENT:  SELECT * FROM auditoria.cambios_clientes
+2026-11-17 02:57:55.761 UTC [244] user=app_ventas db=comercializadora app=psql client=127.0.0.1 LOG:  disconnection: session time: 0:00:00.024 user=app_ventas database=comercializadora host=127.0.0.1 port=47368
+2026-11-17 03:01:06.162 UTC [28] user= db= app= client= LOG:  checkpoint starting: time
+2026-11-17 03:01:07.274 UTC [28] user= db= app= client= LOG:  checkpoint complete: wrote 11 buffers (0.1%); 0 WAL file(s) added, 0 removed, 0 recycled; write=1.039 s, sync=0.027 s, total=1.112 s; sync files=10, longest=0.019 s, average=0.003 s; distance=3 kB, estimate=133 kB; lsn=0/19EDE08, redo lsn=0/19EDDD0
+2026-11-17 03:03:27.289 UTC [259] user=[unknown] db=[unknown] app=[unknown] client=127.0.0.1 LOG:  connection received: host=127.0.0.1 port=52682
+2026-11-17 03:03:27.321 UTC [259] user=app_ventas db=comercializadora app=[unknown] client=127.0.0.1 LOG:  connection authenticated: identity="app_ventas" method=scram-sha-256 (/var/lib/postgresql/data/pg_hba.conf:119)
+2026-11-17 03:03:27.321 UTC [259] user=app_ventas db=comercializadora app=[unknown] client=127.0.0.1 LOG:  connection authorized: user=app_ventas database=comercializadora application_name=app-ventas-web
+2026-11-17 03:03:27.326 UTC [259] user=app_ventas db=comercializadora app=app-ventas-web client=127.0.0.1 ERROR:  permission denied for schema auditoria at character 13
+2026-11-17 03:03:27.326 UTC [259] user=app_ventas db=comercializadora app=app-ventas-web client=127.0.0.1 STATEMENT:  DELETE FROM auditoria.cambios_clientes
+2026-11-17 03:03:27.327 UTC [259] user=app_ventas db=comercializadora app=app-ventas-web client=127.0.0.1 LOG:  statement: ALTER TABLE clientes DISABLE TRIGGER trg_auditoria_clientes
+2026-11-17 03:03:27.329 UTC [259] user=app_ventas db=comercializadora app=app-ventas-web client=127.0.0.1 ERROR:  must be owner of table clientes
+2026-11-17 03:03:27.329 UTC [259] user=app_ventas db=comercializadora app=app-ventas-web client=127.0.0.1 STATEMENT:  ALTER TABLE clientes DISABLE TRIGGER trg_auditoria_clientes
+2026-11-17 03:03:27.329 UTC [259] user=app_ventas db=comercializadora app=app-ventas-web client=127.0.0.1 LOG:  disconnection: session time: 0:00:00.041 user=app_ventas database=comercializadora host=127.0.0.1 port=52682
+2026-11-17 03:04:13.607 UTC [40] user=postgres db=comercializadora app=psql client=[local] LOG:  statement: ALTER TABLE clientes DISABLE TRIGGER trg_auditoria_clientes;
+2026-11-17 03:04:13.631 UTC [40] user=postgres db=comercializadora app=psql client=[local] LOG:  statement: ALTER TABLE clientes ENABLE TRIGGER trg_auditoria_clientes;
+2026-11-17 03:06:06.331 UTC [28] user= db= app= client= LOG:  checkpoint starting: time
+2026-11-17 03:06:07.130 UTC [28] user= db= app= client= LOG:  checkpoint complete: wrote 8 buffers (0.0%); 0 WAL file(s) added, 0 removed, 0 recycled; write=0.727 s, sync=0.032 s, total=0.799 s; sync files=8, longest=0.022 s, average=0.004 s; distance=5 kB, estimate=120 kB; lsn=0/19EF388, redo lsn=0/19EF350
+2026-11-17 03:08:13.465 UTC [273] user=[unknown] db=[unknown] app=[unknown] client=127.0.0.1 LOG:  connection received: host=127.0.0.1 port=38720
+2026-11-17 03:08:13.490 UTC [273] user=soporte_ana db=comercializadora app=[unknown] client=127.0.0.1 LOG:  connection authenticated: identity="soporte_ana" method=scram-sha-256 (/var/lib/postgresql/data/pg_hba.conf:119)
+2026-11-17 03:08:13.490 UTC [273] user=soporte_ana db=comercializadora app=[unknown] client=127.0.0.1 LOG:  connection authorized: user=soporte_ana database=comercializadora application_name=psql
+2026-11-17 03:08:13.495 UTC [273] user=soporte_ana db=comercializadora app=psql client=127.0.0.1 LOG:  disconnection: session time: 0:00:00.029 user=soporte_ana database=comercializadora host=127.0.0.1 port=38720
+2026-11-17 03:11:06.220 UTC [28] user= db= app= client= LOG:  checkpoint starting: time
+2026-11-17 03:11:06.795 UTC [28] user= db= app= client= LOG:  checkpoint complete: wrote 6 buffers (0.0%); 0 WAL file(s) added, 0 removed, 0 recycled; write=0.510 s, sync=0.015 s, total=0.576 s; sync files=6, longest=0.010 s, average=0.003 s; distance=11 kB, estimate=109 kB; lsn=0/19F2310, redo lsn=0/19F22D8
+2026-11-17 03:15:31.443 UTC [287] user=[unknown] db=[unknown] app=[unknown] client=[local] LOG:  connection received: host=[local]
+2026-11-17 03:15:31.444 UTC [287] user=postgres db=comercial app=[unknown] client=[local] LOG:  connection authorized: user=postgres database=comercial application_name=psql
+2026-11-17 03:15:31.444 UTC [287] user=postgres db=comercial app=[unknown] client=[local] FATAL:  database "comercial" does not exist
+2026-11-17 03:15:45.668 UTC [294] user=[unknown] db=[unknown] app=[unknown] client=[local] LOG:  connection received: host=[local]
+2026-11-17 03:15:45.671 UTC [294] user=postgres db=comercializadora app=[unknown] client=[local] LOG:  connection authorized: user=postgres database=comercializadora application_name=psql
+
