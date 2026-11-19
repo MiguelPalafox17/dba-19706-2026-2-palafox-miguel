@@ -1,0 +1,36 @@
+comercializadora=# ALTER SYSTEM SET log_connections = on;
+ALTER SYSTEM SET log_disconnections = on;
+ALTER SYSTEM SET log_line_prefix = '%m [%p] user=%u db=%d app=%a client=%h ';
+ALTER SYSTEM SET log_statement = 'ddl';
+SELECT pg_reload_conf();
+ALTER SYSTEM
+ALTER SYSTEM
+ALTER SYSTEM
+ALTER SYSTEM
+ pg_reload_conf
+----------------
+ t
+(1 row)
+
+comercializadora=# SELECT name, setting, source, sourcefile
+FROM pg_settings
+WHERE name IN ('log_connections', 'log_line_prefix', 'log_statement');
+      name       |                 setting                 |       source       |                  sourcefile
+-----------------+-----------------------------------------+--------------------+-----------------------------------------------
+ log_connections | off                                     | default            |
+ log_line_prefix | %m [%p] user=%u db=%d app=%a client=%h  | configuration file | /var/lib/postgresql/data/postgresql.auto.conf
+ log_statement   | ddl                                     | configuration file | /var/lib/postgresql/data/postgresql.auto.conf
+(3 rows)
+
+comercializadora=# SELECT num, linea FROM dba.bitacora ORDER BY num DESC LIMIT 6;
+ num |                                                                                                                                               linea                                                                                                                
+-----+---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+  13 | 2026-11-16 06:57:57.087 UTC [1] user= db= app= client= LOG:  parameter "log_statement" changed to "ddl"
+  12 | 2026-11-16 06:57:57.087 UTC [1] user= db= app= client= LOG:  parameter "log_line_prefix" changed to "%m [%p] user=%u db=%d app=%a client=%h "
+  11 | 2026-11-16 06:57:57.087 UTC [1] LOG:  parameter "log_disconnections" changed to "on"
+  10 | 2026-11-16 06:57:57.087 UTC [1] LOG:  parameter "log_connections" changed to "on"
+   9 | 2026-11-16 06:57:57.085 UTC [1] LOG:  received SIGHUP, reloading configuration files
+   8 | 2026-11-16 06:56:15.427 UTC [29] LOG:  checkpoint complete: wrote 29 buffers (0.2%); 0 WAL file(s) added, 0 removed, 0 recycled; write=2.633 s, sync=0.045 s, total=2.716 s; sync files=24, longest=0.024 s, average=0.002 s; distance=108 kB, estimate=108 kB; lsn=0/19A7080, redo lsn=0/19A7048
+(6 rows)
+
+

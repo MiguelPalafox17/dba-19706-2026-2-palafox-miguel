@@ -1,0 +1,30 @@
+PS C:\Users\HP> docker exec laboratorio psql "postgresql://soporte_ana:Soporte_Practica_2026@127.0.0.1/comercializadora" -c "SELECT nombre, rfc, telefono FROM clientes WHERE id = 3"
+    nombre    |      rfc      |  telefono
+--------------+---------------+------------
+ María García | GAMA780912GHI | 6679990000
+(1 row)
+
+
+comercializadora=# UPDATE clientes SET segmento = 'regular';
+UPDATE 10
+comercializadora=# SELECT count(*) AS lineas_bitacora FROM dba.bitacora
+WHERE linea LIKE '%statement: UPDATE clientes SET segmento%';
+ lineas_bitacora
+-----------------
+               0
+(1 row)
+
+comercializadora=# SELECT operacion, count(*) FROM auditoria.cambios_clientes GROUP BY operacion ORDER BY operacion;
+ operacion | count
+-----------+-------
+ DELETE    |     1
+ INSERT    |     1
+ UPDATE    |    11
+(3 rows)
+
+comercializadora=# SELECT count(*) AS lecturas_soporte FROM dba.bitacora
+WHERE linea LIKE '%user=soporte_ana%SELECT nombre, rfc%';
+ lecturas_soporte
+------------------
+                0
+(1 row)

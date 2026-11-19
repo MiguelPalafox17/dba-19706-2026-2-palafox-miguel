@@ -1,0 +1,33 @@
+PS C:\Users\HP> docker exec laboratorio psql -c "UPDATE clientes SET rfc = 'GAMA780912XYZ' WHERE id = 3" "postgresql://app_ventas:Ventas_Practica_2026@127.0.0.1/comercializadora"
+UPDATE 1
+
+
+comercializadora=# SELECT linea FROM dba.bitacora WHERE linea LIKE '%user=app_ventas%' ORDER BY num DESC LIMIT 3;
+                                                                                                           linea                     
+---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+ 2026-11-16 17:58:06.701 UTC [48] user=app_ventas db=comercializadora app=psql client=127.0.0.1 LOG:  disconnection: session time: 0:00:00.100 user=app_ventas database=comercializadora host=127.0.0.1 port=59160
+ 2026-11-16 17:58:06.615 UTC [48] user=app_ventas db=comercializadora app=[unknown] client=127.0.0.1 LOG:  connection authorized: user=app_ventas database=comercializadora application_name=psql
+ 2026-11-16 17:58:06.615 UTC [48] user=app_ventas db=comercializadora app=[unknown] client=127.0.0.1 LOG:  connection authenticated: identity="app_ventas" method=scram-sha-256 (/var/lib/postgresql/data/pg_hba.conf:119)
+(3 rows)
+
+
+PS C:\Users\HP> docker exec laboratorio psql -c "UPDATE clientes SET telefono = '6679990000' WHERE id = 3" -c "SELECT nombre, rfc FROM clientes WHERE id = 3" "postgresql://app_ventas:Ventas_Practica_2026@127.0.0.1/comercializadora"
+UPDATE 1
+    nombre    |      rfc
+--------------+---------------
+ María García | GAMA780912XYZ
+(1 row)
+
+
+comercializadora=# SELECT linea FROM dba.bitacora
+WHERE linea LIKE '%log_statement%' OR linea LIKE '%user=app_ventas%statement:%'
+ORDER BY num;
+                                                                                  linea                                              
+--------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+ 2026-11-16 17:59:38.032 UTC [40] user=postgres db=comercializadora app=psql client=[local] LOG:  statement: ALTER SYSTEM SET log_statement = 'mod';
+ 2026-11-16 17:59:48.546 UTC [1] user= db= app= client= LOG:  parameter "log_statement" changed to "mod"
+ 2026-11-16 18:00:33.326 UTC [59] user=app_ventas db=comercializadora app=psql client=127.0.0.1 LOG:  statement: UPDATE clientes SET telefono = '6679990000' WHERE id = 3
+(3 rows)
+
+
+

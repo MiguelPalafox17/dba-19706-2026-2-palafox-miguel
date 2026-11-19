@@ -1,0 +1,17 @@
+PS C:\Users\HP> docker exec laboratorio psql -c "DELETE FROM clientes WHERE id = 5" "postgresql://soporte_ana:Soporte_Practica_2026@127.0.0.1/comercializadora"
+ERROR:  permission denied for table clientes
+
+comercializadora=# DROP ROLE soporte_ana;
+ERROR:  role "soporte_ana" cannot be dropped because some objects depend on it
+DETAIL:  privileges for table clientes
+comercializadora=# SELECT linea FROM dba.bitacora
+WHERE linea ~ '(ERROR|STATEMENT|DETAIL):  (permission|privileges|role|DELETE|DROP)'
+ORDER BY num;
+                                                                                   linea                                             
+---------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+ 2026-11-16 19:52:34.583 UTC [74] user=app_ventas db=comercializadora app=psql client=127.0.0.1 ERROR:  permission denied for table clientes
+ 2026-11-16 19:52:34.583 UTC [74] user=app_ventas db=comercializadora app=psql client=127.0.0.1 STATEMENT:  DELETE FROM clientes WHERE id = 5
+ 2026-11-16 19:53:14.695 UTC [40] user=postgres db=comercializadora app=psql client=[local] ERROR:  role "soporte_ana" cannot be dropped because some objects depend on it
+ 2026-11-16 19:53:14.695 UTC [40] user=postgres db=comercializadora app=psql client=[local] DETAIL:  privileges for table clientes
+ 2026-11-16 19:53:14.695 UTC [40] user=postgres db=comercializadora app=psql client=[local] STATEMENT:  DROP ROLE soporte_ana;
+(5 rows)

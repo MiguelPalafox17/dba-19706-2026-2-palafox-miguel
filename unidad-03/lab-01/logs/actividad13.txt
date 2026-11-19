@@ -1,0 +1,29 @@
+PS C:\Users\HP> docker exec laboratorio psql "postgresql://app_ventas:Ventas_Practica_2026@127.0.0.1/comercializadora?application_name=app-ventas-web" -c "DELETE FROM auditoria.cambios_clientes" -c "ALTER TABLE clientes DISABLE TRIGGER trg_auditoria_clientes"
+ERROR:  permission denied for schema auditoria
+LINE 1: DELETE FROM auditoria.cambios_clientes
+                    ^
+ERROR:  must be owner of table clientes
+
+
+
+comercializadora=# ALTER TABLE clientes DISABLE TRIGGER trg_auditoria_clientes;
+UPDATE clientes SET rfc = 'GAMA780912GHI' WHERE id = 3;
+ALTER TABLE clientes ENABLE TRIGGER trg_auditoria_clientes;
+SELECT count(*) FROM auditoria.cambios_clientes;
+ALTER TABLE
+UPDATE 1
+ALTER TABLE
+ count
+-------
+     3
+(1 row)
+
+comercializadora=# SELECT linea FROM dba.bitacora
+WHERE linea ~ 'statement: (ALTER TABLE clientes (DIS|EN)ABLE|UPDATE clientes SET rfc = .GAMA780912GHI)'
+ORDER BY num;
+                                                                                         linea                                       
+----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+ 2026-11-17 03:03:27.327 UTC [259] user=app_ventas db=comercializadora app=app-ventas-web client=127.0.0.1 LOG:  statement: ALTER TABLE clientes DISABLE TRIGGER trg_auditoria_clientes
+ 2026-11-17 03:04:13.607 UTC [40] user=postgres db=comercializadora app=psql client=[local] LOG:  statement: ALTER TABLE clientes DISABLE TRIGGER trg_auditoria_clientes;
+ 2026-11-17 03:04:13.631 UTC [40] user=postgres db=comercializadora app=psql client=[local] LOG:  statement: ALTER TABLE clientes ENABLE TRIGGER trg_auditoria_clientes;
+(3 rows)

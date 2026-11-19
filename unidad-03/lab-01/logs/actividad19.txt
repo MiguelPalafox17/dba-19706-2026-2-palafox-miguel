@@ -1,0 +1,50 @@
+comercializadora=# CREATE ROLE auditor_datos NOLOGIN;
+GRANT SELECT (rfc, telefono), UPDATE (rfc, telefono) ON clientes TO auditor_datos;
+ALTER SYSTEM SET pgaudit.log = 'role, ddl';
+ALTER SYSTEM SET pgaudit.role = 'auditor_datos';
+ALTER SYSTEM SET pgaudit.log_relation = on;
+ERROR:  role "auditor_datos" already exists
+GRANT
+ALTER SYSTEM
+ALTER SYSTEM
+ALTER SYSTEM
+comercializadora=# SELECT pg_reload_conf();
+ pg_reload_conf
+----------------
+ t
+(1 row)
+
+
+PS C:\Users\HP> docker exec laboratorio psql "postgresql://app_ventas:Ventas_Practica_2026@127.0.0.1/comercializadora?application_name=app-ventas-web" -c "SELECT nombre, ciudad FROM clientes WHERE id = 2" -c "SELECT nombre, rfc FROM clientes WHERE id = 3" -c "SELECT * FROM clientes WHERE id = 4" -c "UPDATE clientes SET rfc = 'LOAA850315XXX' WHERE id = 1" -c "UPDATE clientes SET ciudad = 'Navolato' WHERE id = 2"
+    nombre    |  ciudad
+--------------+----------
+ Carlos Pérez | Navolato
+(1 row)
+
+    nombre    |      rfc
+--------------+---------------
+ María García | GAMA780912GHI
+(1 row)
+
+ id |   nombre    |          correo          |  telefono  |      rfc      | edad |   ciudad   | codigo_postal | fecha_alta | segmento
+----+-------------+--------------------------+------------+---------------+------+------------+---------------+------------+----------
+  4 | Luis Torres | luis.torres@example.test | 6674567890 | TOLU920201JKL |   34 | Los Mochis | 81200         | 2026-11-16 | regular
+(1 row)
+
+UPDATE 1
+UPDATE 1
+
+comercializadora=# GRANT SELECT ON clientes TO soporte_ana;
+SELECT linea FROM dba.bitacora WHERE linea LIKE '%AUDIT:%';
+GRANT
+                                                                                                                  linea              
+-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+ 2026-11-19 03:07:38.163 UTC [40] user=postgres db=comercializadora app=psql client=[local] LOG:  AUDIT: SESSION,1,1,ROLE,GRANT,TABLE,,"GRANT SELECT (rfc, telefono), UPDATE (rfc, telefono) ON clientes TO auditor_datos;",<not logged>
+ 2026-11-19 03:07:38.177 UTC [40] user=postgres db=comercializadora app=psql client=[local] LOG:  AUDIT: SESSION,2,1,DDL,ALTER SYSTEM,,,"ALTER SYSTEM SET pgaudit.log = 'role, ddl';",<not logged>
+ 2026-11-19 03:07:38.186 UTC [40] user=postgres db=comercializadora app=psql client=[local] LOG:  AUDIT: SESSION,3,1,DDL,ALTER SYSTEM,,,ALTER SYSTEM SET pgaudit.role = 'auditor_datos';,<not logged>
+ 2026-11-19 03:07:38.195 UTC [40] user=postgres db=comercializadora app=psql client=[local] LOG:  AUDIT: SESSION,4,1,DDL,ALTER SYSTEM,,,ALTER SYSTEM SET pgaudit.log_relation = on;,<not logged>
+ 2026-11-19 03:08:39.133 UTC [47] user=app_ventas db=comercializadora app=app-ventas-web client=127.0.0.1 LOG:  AUDIT: OBJECT,1,1,READ,SELECT,TABLE,public.clientes,"SELECT nombre, rfc FROM clientes WHERE id = 3",<not logged>
+ 2026-11-19 03:08:39.134 UTC [47] user=app_ventas db=comercializadora app=app-ventas-web client=127.0.0.1 LOG:  AUDIT: OBJECT,2,1,READ,SELECT,TABLE,public.clientes,SELECT * FROM clientes WHERE id = 4,<not logged>
+ 2026-11-19 03:08:39.137 UTC [47] user=app_ventas db=comercializadora app=app-ventas-web client=127.0.0.1 LOG:  AUDIT: OBJECT,3,1,WRITE,UPDATE,TABLE,public.clientes,UPDATE clientes SET rfc = 'LOAA850315XXX' WHERE id = 1,<not logged>
+ 2026-11-19 03:09:04.685 UTC [40] user=postgres db=comercializadora app=psql client=[local] LOG:  AUDIT: SESSION,5,1,ROLE,GRANT,TABLE,,GRANT SELECT ON clientes TO soporte_ana;,<not logged>
+(8 rows)

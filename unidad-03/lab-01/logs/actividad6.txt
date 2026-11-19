@@ -1,0 +1,24 @@
+comercializadora=# REVOKE UPDATE ON clientes FROM soporte_ana;
+REVOKE
+comercializadora=# GRANT UPDATE ON clientes TO app_ventas;
+ALTER TABLE clientes ADD COLUMN segmento VARCHAR(20);
+GRANT
+ALTER TABLE
+comercializadora=# CREATE ROLE rol_temporal LOGIN PASSWORD 'Temporal_Practica_2026';
+DROP ROLE rol_temporal;
+CREATE ROLE
+DROP ROLE
+comercializadora=# SELECT linea FROM dba.bitacora WHERE linea LIKE '%statement:%' ORDER BY num;
+   linea                                                                                                                             
+-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+ 2026-11-16 07:07:12.491 UTC [181] user=postgres db=comercializadora app=psql client=[local] LOG:  statement: ALTER USER app_ventas PASSWORD 'SCRAM-SHA-256$4096:VzQxPqxFWnaT2Mx9sULLzA==$sai5ZQ+0pIl4+vOvapvaMqJnW0rMihm0YPXvkxvqyaM=:QltPrwKeXsDypasAzRjHmj9BtAAQ/zFcaNhdSe4LlJU='
+ 2026-11-16 07:10:52.358 UTC [42] user=postgres db=comercializadora app=psql client=[local] LOG:  statement: REVOKE UPDATE ON clientes FROM soporte_ana;
+ 2026-11-16 07:11:05.328 UTC [42] user=postgres db=comercializadora app=psql client=[local] LOG:  statement: GRANT UPDATE ON clientes TO app_ventas;
+ 2026-11-16 07:11:05.345 UTC [42] user=postgres db=comercializadora app=psql client=[local] LOG:  statement: ALTER TABLE clientes ADD COLUMN segmento VARCHAR(20);
+ 2026-11-16 07:11:19.656 UTC [42] user=postgres db=comercializadora app=psql client=[local] LOG:  statement: CREATE ROLE rol_temporal LOGIN PASSWORD 'Temporal_Practica_2026';
+ 2026-11-16 07:11:19.675 UTC [42] user=postgres db=comercializadora app=psql client=[local] LOG:  statement: DROP ROLE rol_temporal;
+(6 rows)
+
+(END)
+
+

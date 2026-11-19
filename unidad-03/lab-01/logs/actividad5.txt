@@ -1,0 +1,30 @@
+PS C:\Users\HP> docker exec laboratorio psql -c "SELECT 1" "postgresql://app_ventas:incorrecta@127.0.0.1/comercializadora"
+psql: error: connection to server at "127.0.0.1", port 5432 failed: FATAL:  password authentication failed for user "app_ventas"
+PS C:\Users\HP> docker exec laboratorio psql -c "SELECT 1" "postgresql://Usuario_Inexistente:x@127.0.0.1/comercializadora"
+psql: error: connection to server at "127.0.0.1", port 5432 failed: FATAL:  password authentication failed for user "Usuario_Inexistente"
+PS C:\Users\HP> docker exec laboratorio psql -c "SELECT 1" "postgresql://app_ventas:Ventas_Practica_2026@127.0.0.1/comercializadora"
+ ?column?
+----------
+        1
+(1 row)
+
+
+comercializadora=# SELECT linea FROM dba.bitacora WHERE linea LIKE '%client=127.0.0.1%' ORDER BY num;
+                                                                                                                                 linea
+------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+ 2026-11-16 07:00:59.809 UTC [84] user=[unknown] db=[unknown] app=[unknown] client=127.0.0.1 LOG:  connection received: host=127.0.0.1 port=54682
+ 2026-11-16 07:00:59.811 UTC [84] user=app_ventas db=comercializadora app=[unknown] client=127.0.0.1 LOG:  connection authorized: user=app_ventas database=comercializadora application_name=psql
+ 2026-11-16 07:00:59.815 UTC [84] user=app_ventas db=comercializadora app=psql client=127.0.0.1 LOG:  disconnection: session time: 0:00:00.006 user=app_ventas database=comercializadora host=127.0.0.1 port=54682
+ 2026-11-16 07:02:20.327 UTC [95] user=[unknown] db=[unknown] app=[unknown] client=127.0.0.1 LOG:  connection received: host=127.0.0.1 port=51860
+ 2026-11-16 07:02:20.329 UTC [95] user=app_ventas db=comercializadora app=[unknown] client=127.0.0.1 LOG:  connection authorized: user=app_ventas database=comercializadora application_name=psql
+ 2026-11-16 07:02:20.332 UTC [95] user=app_ventas db=comercializadora app=psql client=127.0.0.1 LOG:  disconnection: session time: 0:00:00.005 user=app_ventas database=comercializadora host=127.0.0.1 port=51860
+ 2026-11-16 07:02:32.769 UTC [108] user=[unknown] db=[unknown] app=[unknown] client=127.0.0.1 LOG:  connection received: host=127.0.0.1 port=42914
+ 2026-11-16 07:02:32.771 UTC [108] user=app_ventas db=comercializadora app=[unknown] client=127.0.0.1 LOG:  connection authorized: user=app_ventas database=comercializadora application_name=psql
+ 2026-11-16 07:02:32.776 UTC [108] user=app_ventas db=comercializadora app=psql client=127.0.0.1 LOG:  disconnection: session time: 0:00:00.007 user=app_ventas database=comercializadora host=127.0.0.1 port=42914
+ 2026-11-16 07:03:05.571 UTC [117] user=[unknown] db=[unknown] app=[unknown] client=127.0.0.1 LOG:  connection received: host=127.0.0.1 port=44886
+ 2026-11-16 07:03:05.573 UTC [117] user=app_ventas db=comercializadora app=[unknown] client=127.0.0.1 LOG:  connection authorized: user=app_ventas database=comercializadora application_name=psql
+ 2026-11-16 07:03:05.575 UTC [117] user=app_ventas db=comercializadora app=psql client=127.0.0.1 LOG:  disconnection: session time: 0:00:00.004 user=app_ventas database=comercializadora host=127.0.0.1 port=44886
+ 2026-11-16 07:03:49.200 UTC [132] user=[unknown] db=[unknown] app=[unknown] client=127.0.0.1 LOG:  connection received: host=127.0.0.1 port=50448
+ 2026-11-16 07:03:49.202 UTC [132] user=app_ventas db=comercializadora app=[unknown] client=127.0.0.1 LOG:  connection authorized: user=app_ventas database=comercializadora application_name=psql
+:
+
